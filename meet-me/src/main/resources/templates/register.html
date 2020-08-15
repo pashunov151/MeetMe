@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:insert="fragments/header::head"></th:block>
+<body>
+
+<th:block th:insert="fragments/navigation::navigation"></th:block>
+
+<div class="row tm-mt-big">
+    <div class="col-12 mx-auto tm-login-col">
+        <div class="bg-white tm-block">
+            <div class="row mt-2">
+                <div class="col-12">
+                    <form autocomplete="off" id="registerContainer" th:action="@{/register}" th:method="POST" th:object="${registerModel}"
+                          class="tm-login-form reg">
+                        <div class="row" id="fp">
+                            <div class="col-sm">
+                                <th:block>
+                                    <div class="input-group">
+                                        <label for="username"
+                                               class="col-xl-4 col-lg-4 col-md-4 col-sm-5 col-form-label">Username</label>
+                                        <input name="username" type="text" th:field="*{username}"
+                                               class="form-control validate col-xl-9 col-lg-8 col-md-8 col-sm-7"
+                                               id="username" placeholder="Enter username"/>
+
+                                        <!--                            <th:block th:each="e : ${#fields.errors('username')}">-->
+                                        <!--                                <div class="mx-auto">-->
+                                        <!--                                    <small th:text="${e}" class="text-danger"></small>-->
+                                        <!--                                </div>-->
+                                        <!--                            </th:block>-->
+
+                                    </div>
+                                    <div id="uNIndicator" class="mx-auto text-center">
+                                        <small class="text-danger ">Username should be at least 3 chars</small>
+                                    </div>
+                                </th:block>
+
+                                <th:block>
+                                    <div class="input-group mt-3">
+                                        <label for="password"
+                                               class="col-xl-4 col-lg-4 col-md-4 col-sm-5 col-form-label">Password</label>
+                                        <input name="password" type="password" class="form-control validate"
+                                               th:field="*{password}"
+                                               id="password" placeholder="Enter password">
+                                        <!--                            <th:block th:each="e : ${#fields.errors('password')}">-->
+                                        <!--                                <div class="mx-auto">-->
+                                        <!--                                    <small th:text="${e}" class="text-danger"></small>-->
+                                        <!--                                </div>-->
+                                        <!--                            </th:block>-->
+
+                                    </div>
+                                    <div id="pNIndicator" class="mx-auto text-center">
+                                        <small class="text-danger ">Password should be at least 3 chars</small>
+                                    </div>
+                                </th:block>
+                                <th:block>
+                                    <div class="input-group mt-3">
+                                        <label for="confirmPassword"
+                                               class="col-xl-4 col-lg-4 col-md-4 col-sm-5 col-form-label">Confirm
+                                            Password</label>
+                                        <input name="confirmPassword" type="password" class="form-control validate"
+                                               th:field="*{confirmPassword}"
+                                               id="confirmPassword" placeholder="Confirm password">
+                                    </div>
+                                    <div id="cPNIndicator" class="mx-auto text-center">
+                                        <small class="text-danger ">Passwords don't match</small>
+                                    </div>
+                                </th:block>
+
+                                <th:block>
+                                    <div class="input-group mt-3">
+                                        <label for="email"
+                                               class="col-xl-4 col-lg-4 col-md-4 col-sm-5 col-form-label">Email</label>
+                                        <input name="email" type="email" class="form-control validate"
+                                               th:field="*{details.email}"
+                                               id="email"
+                                               placeholder="Enter email">
+                                        <!--                            <th:block th:each="e : ${#fields.errors('email')}">-->
+                                        <!--                                <div class="mx-auto">-->
+                                        <!--                                    <small th:text="${e}" class="text-danger"></small>-->
+                                        <!--                                </div>-->
+                                        <!--                            </th:block>-->
+
+                                    </div>
+                                    <div id="eTaken" class="mx-auto text-center">
+                                        <small class="text-danger ">Email is already taken</small>
+                                    </div>
+                                    <div id="eIndicator" class="mx-auto text-center">
+                                        <small class="text-danger ">Enter a valid email</small>
+                                    </div>
+                                </th:block>
+
+                            </div>
+
+                            <div class="col-sm">
+                                <th:block>
+                                    <div class="input-group">
+                                        <label for="gender"
+                                               class="col-xl-4 col-lg-4 col-md-4 col-sm-5 col-form-label">Sex</label>
+                                        <select required class="custom-select col-xl-9 col-lg-8 col-md-8 col-sm-7"
+                                                name="details.gender" id="gender">
+                                            <option th:disabled="disabled" th:selected="selected">Sex</option>
+                                            <option th:value="MALE">MALE</option>
+                                            <option th:value="FEMALE">FEMALE</option>
+                                        </select>
+                                    </div>
+                                    <div id="sIndicator" class="mx-auto text-center">
+                                        <small class="text-danger ">Field is required</small>
+                                    </div>
+                                </th:block>
+                                <th:block>
+                                    <div class="input-group mt-3">
+                                        <label for="interestedIn"
+                                               class="col-xl-4 col-lg-4 col-md-4 col-sm-5 col-form-label">Looking for
+                                            a</label>
+                                        <select required class="custom-select col-xl-9 col-lg-8 col-md-8 col-sm-7"
+                                                name="details.interestedIn"
+                                                id="interestedIn">
+                                            <option th:disabled="disabled" th:selected="selected">Interested in</option>
+                                            <option th:value="MALE">MALE</option>
+                                            <option th:value="FEMALE">FEMALE</option>
+                                        </select>
+                                    </div>
+                                    <div id="lFIndicator" class="mx-auto text-center">
+                                        <small class="text-danger ">Field is required</small>
+                                    </div>
+                                </th:block>
+                                <th:block>
+                                    <div class="input-group mt-3">
+                                        <label for="born"
+                                               class="col-xl-4 col-lg-4 col-md-4 col-sm-5 col-form-label">Born</label>
+                                        <input id="born" name="born" type="date" th:field="*{born}"
+                                               class="form-control validate col-xl-9 col-lg-8 col-md-8 col-sm-7"
+                                               data-large-mode="false"/>
+                                    </div>
+                                    <div id="bIndicator" class="mx-auto text-center">
+                                        <small class="text-danger ">Enter a valid date</small>
+                                    </div>
+                                </th:block>
+                                <th:block>
+                                    <div class="input-group mt-3">
+                                        <label for="location"
+                                               class="col-xl-4 col-lg-4 col-md-4 col-sm-5 col-form-label">Location</label>
+                                        <input name="location" type="text" th:field="*{location.city}"
+                                               class="form-control validate col-xl-9 col-lg-8 col-md-8 col-sm-7"
+                                               id="location" placeholder="Location">
+                                        <!--                            <th:block th:each="e : ${#fields.errors('username')}">-->
+                                        <!--                                <div class="mx-auto">-->
+                                        <!--                                    <small th:text="${e}" class="text-danger"></small>-->
+                                        <!--                                </div>-->
+                                        <!--                            </th:block>-->
+                                    </div>
+                                    <div id="loIndicator" class="mx-auto text-center">
+                                        <small class="text-danger ">Enter a valid location</small>
+                                    </div>
+                                </th:block>
+
+                            </div>
+                            <div class="input-group mt-3">
+                                <button id="next" class="btn btn-primary d-inline-block mx-auto">Next
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row" id="sp">
+                            <div class="col-sm">
+                                <th:block>
+                                    <div class="input-group">
+                                        <label for="firstName"
+                                               class="col-xl-4 col-lg-4 col-md-4 col-sm-5 col-form-label">First
+                                            Name</label>
+                                        <input name="firstName" type="text" th:field="*{firstName}"
+                                               class="form-control validate col-xl-9 col-lg-8 col-md-8 col-sm-7"
+                                               id="firstName" placeholder="Enter first name">
+                                        <!--                            <th:block th:each="e : ${#fields.errors('username')}">-->
+                                        <!--                                <div class="mx-auto">-->
+                                        <!--                                    <small th:text="${e}" class="text-danger"></small>-->
+                                        <!--                                </div>-->
+                                        <!--                            </th:block>-->
+                                    </div>
+                                    <div id="fNIndicator" class="mx-auto text-center">
+                                        <small class="text-danger ">First name should be at least 2 chars</small>
+                                    </div>
+                                </th:block>
+                                <th:block>
+                                    <div class="input-group mt-3">
+                                        <label for="skinColor"
+                                               class="col-xl-4 col-lg-4 col-md-4 col-sm-5 col-form-label">Skin
+                                            Color</label>
+                                        <input name="skinColor" type="text" th:field="*{details.skinColor}"
+                                               class="form-control validate col-xl-9 col-lg-8 col-md-8 col-sm-7"
+                                               id="skinColor" placeholder="Enter skin color">
+                                        <!--                            <th:block th:each="e : ${#fields.errors('username')}">-->
+                                        <!--                                <div class="mx-auto">-->
+                                        <!--                                    <small th:text="${e}" class="text-danger"></small>-->
+                                        <!--                                </div>-->
+                                        <!--                            </th:block>-->
+                                    </div>
+                                    <div id="sCNIndicator" class="mx-auto text-center">
+                                        <small class="text-danger ">Field is required</small>
+                                    </div>
+                                </th:block>
+                                <th:block>
+                                    <div class="input-group mt-3">
+                                        <label for="eyeColor"
+                                               class="col-xl-4 col-lg-4 col-md-4 col-sm-5 col-form-label">Eye
+                                            Color</label>
+                                        <input name="eyeColor" type="text" th:field="*{details.eyeColor}"
+                                               class="form-control validate col-xl-9 col-lg-8 col-md-8 col-sm-7"
+                                               id="eyeColor" placeholder="Enter eye color">
+                                        <!--                            <th:block th:each="e : ${#fields.errors('username')}">-->
+                                        <!--                                <div class="mx-auto">-->
+                                        <!--                                    <small th:text="${e}" class="text-danger"></small>-->
+                                        <!--                                </div>-->
+                                        <!--                            </th:block>-->
+                                    </div>
+                                    <div id="eCNIndicator" class="mx-auto text-center">
+                                        <small class="text-danger ">Field is required</small>
+                                    </div>
+                                </th:block>
+                                <th:block>
+                                    <div class="input-group mt-3">
+                                        <label for="weight"
+                                               class="col-xl-4 col-lg-4 col-md-4 col-sm-5 col-form-label">Weight
+                                            (cm)</label>
+                                        <input name="weight" type="text" th:field="*{details.weight}"
+                                               class="form-control validate col-xl-9 col-lg-8 col-md-8 col-sm-7"
+                                               id="weight" placeholder="Enter weight">
+                                        <!--                            <th:block th:each="e : ${#fields.errors('username')}">-->
+                                        <!--                                <div class="mx-auto">-->
+                                        <!--                                    <small th:text="${e}" class="text-danger"></small>-->
+                                        <!--                                </div>-->
+                                        <!--                            </th:block>-->
+                                    </div>
+                                    <div id="wNIndicator" class="mx-auto text-center">
+                                        <small class="text-danger ">Field is required</small>
+                                    </div>
+                                </th:block>
+
+                            </div>
+                            <div class="col-sm">
+                                <th:block>
+                                    <div class="input-group">
+                                        <label for="lastName"
+                                               class="col-xl-4 col-lg-4 col-md-4 col-sm-5 col-form-label">Last
+                                            Name</label>
+                                        <input name="lastName" type="text" th:field="*{lastName}"
+                                               class="form-control validate col-xl-9 col-lg-8 col-md-8 col-sm-7"
+                                               id="lastName" placeholder="Enter last name">
+                                        <!--                            <th:block th:each="e : ${#fields.errors('username')}">-->
+                                        <!--                                <div class="mx-auto">-->
+                                        <!--                                    <small th:text="${e}" class="text-danger"></small>-->
+                                        <!--                                </div>-->
+                                        <!--                            </th:block>-->
+                                    </div>
+                                    <div id="lNIndicator" class="mx-auto text-center">
+                                        <small class="text-danger ">Enter last name</small>
+                                    </div>
+                                </th:block>
+                                <th:block>
+                                    <div class="input-group mt-3">
+                                        <label for="hairColor"
+                                               class="col-xl-4 col-lg-4 col-md-4 col-sm-5 col-form-label">Hair
+                                            Color</label>
+                                        <input name="hairColor" type="text" th:field="*{details.hairColor}"
+                                               class="form-control validate col-xl-9 col-lg-8 col-md-8 col-sm-7"
+                                               id="hairColor" placeholder="Enter hair color">
+                                        <!--                            <th:block th:each="e : ${#fields.errors('username')}">-->
+                                        <!--                                <div class="mx-auto">-->
+                                        <!--                                    <small th:text="${e}" class="text-danger"></small>-->
+                                        <!--                                </div>-->
+                                        <!--                            </th:block>-->
+                                    </div>
+                                    <div id="hCNIndicator" class="mx-auto text-center">
+                                        <small class="text-danger ">Field is required</small>
+                                    </div>
+                                </th:block>
+                                <th:block>
+                                    <div class="input-group mt-3">
+                                        <label for="height"
+                                               class="col-xl-4 col-lg-4 col-md-4 col-sm-5 col-form-label">Height
+                                            (cm)</label>
+                                        <input name="height" type="text" th:field="*{details.height}"
+                                               class="form-control validate col-xl-9 col-lg-8 col-md-8 col-sm-7"
+                                               id="height" placeholder="Enter height">
+                                        <!--                            <th:block th:each="e : ${#fields.errors('username')}">-->
+                                        <!--                                <div class="mx-auto">-->
+                                        <!--                                    <small th:text="${e}" class="text-danger"></small>-->
+                                        <!--                                </div>-->
+                                        <!--                            </th:block>-->
+                                    </div>
+                                    <div id="hNIndicator" class="mx-auto text-center">
+                                        <small class="text-danger ">Field is required</small>
+                                    </div>
+                                </th:block>
+                                <th:block>
+                                    <div class="input-group mt-3">
+                                        <label for="picture"
+                                               class="col-xl-4 col-lg-4 col-md-4 col-sm-5 col-form-label">Profile
+                                            picture</label>
+                                        <div class="custom-file">
+                                            <input name="picture" type="file" th:field="*{details.picture}"
+                                                   class="custom-file-input col-xl-9 col-lg-8 col-md-8 col-sm-7"
+                                                   id="picture">
+                                            <label for="picture"
+                                                   id="picLabel"
+                                                   class="custom-file-label form-control">Profile
+                                                picture</label>
+                                        </div>
+                                    </div>
+                                    <div id="picIndicator" class="mx-auto text-center">
+                                        <small class="text-danger ">Field is required</small>
+                                    </div>
+                                </th:block>
+
+                            </div>
+                            <div class="input-group mt-3">
+                                <button id="prev" class="btn btn-primary d-inline-block mx-auto">Previous
+                                </button>
+                                <button id="regForm" type="submit" class="btn btn-primary d-inline-block mx-auto">
+                                    Register
+                                </button>
+                            </div>
+                        </div>
+
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container mt-lg-5 border-right border-bottom bg-transparent h-100">
+    <h1 class="w-100 text-light text-right">Register</h1>
+</div>
+<th:block th:include="fragments/footer::footer"></th:block>
+</body>
+</html>
