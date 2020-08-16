@@ -71,7 +71,6 @@
         }
         tr.addEventListener("input", function (e) {
             firstPageCommonFunction('password', 'pNIndicator', e.target.value.length < 3);
-            console.log(document.getElementById("password").value);
             if (document.getElementById("password").value.length < 3) {
                 el.disabled = true;
                 el.value = "";

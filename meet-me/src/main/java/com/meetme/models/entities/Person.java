@@ -19,6 +19,7 @@ public class Person extends BaseEntity {
     private String firstName;
     private String lastName;
     private String password;
+    private List<Role> roles;
     private Details details;
     private LocalDate born;
     private Location location;
@@ -28,6 +29,20 @@ public class Person extends BaseEntity {
     private LocalDateTime updated;
 
     public Person() {
+    }
+
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.EAGER
+    )
+    @JoinColumn(name = "user_id")
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 
     @Column(name = "username", nullable = false, updatable = false)
@@ -99,7 +114,7 @@ public class Person extends BaseEntity {
         this.location = location;
     }
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "friends",
             joinColumns = @JoinColumn(name = "person_id"),
             inverseJoinColumns = @JoinColumn(name = "friend_id")
@@ -112,7 +127,7 @@ public class Person extends BaseEntity {
         this.friends = friends;
     }
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "friends",
             joinColumns = @JoinColumn(name = "friend_id"),
             inverseJoinColumns = @JoinColumn(name = "person_id")

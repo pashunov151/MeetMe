@@ -6,9 +6,14 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 
 @Repository
-public interface PersonRepository extends JpaRepository<Person, String> {
+public interface UserRepository extends JpaRepository<Person, String> {
+    @Query(value = "SELECT * FROM meet_me.people p JOIN meet_me.details AS d on p.details_id=d.id WHERE d.email = :email", nativeQuery = true)
+    Optional<Person> findOneByEmail(@Param("email") String email);
+
     Person findByUsername(String username);
 
     @Query(value = "SELECT * FROM meet_me.people p JOIN meet_me.details AS d on p.details_id=d.id WHERE d.email = :email", nativeQuery = true)
