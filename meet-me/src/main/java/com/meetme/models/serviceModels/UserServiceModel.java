@@ -1,5 +1,6 @@
 package com.meetme.models.serviceModels;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.meetme.models.entities.Details;
 import com.meetme.models.entities.Location;
 import com.meetme.models.entities.Person;
@@ -47,6 +48,7 @@ public class UserServiceModel {
         this.lastName = lastName;
     }
 
+    @JsonIgnore
     public Details getDetails() {
         return details;
     }
@@ -63,6 +65,7 @@ public class UserServiceModel {
         this.born = born;
     }
 
+    @JsonIgnore
     public Location getLocation() {
         return location;
     }
@@ -71,6 +74,7 @@ public class UserServiceModel {
         this.location = location;
     }
 
+    @JsonIgnore
     public List<Person> getFriends() {
         return friends;
     }
@@ -79,6 +83,7 @@ public class UserServiceModel {
         this.friends = friends;
     }
 
+    @JsonIgnore
     public List<Person> getFriendOf() {
         return friendOf;
     }

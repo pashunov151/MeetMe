@@ -1,3 +1,4 @@
+"use strict";
 (function () {
     const fieldHandlerMap = {
         username: (tr) => usernameHandler(tr),
@@ -64,19 +65,19 @@
 
     function passwordHandler(tr) {
         let el = document.getElementById("confirmPassword");
-        if (document.getElementById("password").value.length === 0) {
+        if (document.getElementById("password").value.length < 3) {
             el.disabled = true;
             el.value = "";
         }
         tr.addEventListener("input", function (e) {
             firstPageCommonFunction('password', 'pNIndicator', e.target.value.length < 3);
             console.log(document.getElementById("password").value);
-             if (document.getElementById("password").value.length === 0) {
-                 el.disabled = true;
-                 el.value = "";
-             }else {
-                 el.disabled = false;
-             }
+            if (document.getElementById("password").value.length < 3) {
+                el.disabled = true;
+                el.value = "";
+            } else {
+                el.disabled = false;
+            }
         });
     }
 
@@ -87,19 +88,23 @@
         });
     }
 
-    function emailHandler(tr) {
+    async function emailHandler(tr) {
         tr.addEventListener("input", (e) => {
             let email = e.target.value;
             let a = `http://localhost:8001/db/users/${email}`;
-            if (email.length > 0 && email.match(/\w+@{1}\w+\.\w+/g)) {
-                fetch(a).then(r => r.json()).then(r => {
-                    let eTaken = document.getElementById('eTaken');
-                    if (r.username === null) {
-                        eTaken.style.display = 'none';
-                        return;
-                    }
-                    eTaken.style.display = '';
-                }).catch(e => console.log("err -> ", e));
+            if (email.length > 0 && email.match(/\w+@{1}\w+\.\w{2,}/g)) {
+                fetch(a, {mode: 'cors', method: 'GET'})
+                    .then(r => {
+                        let eTaken = document.getElementById('eTaken');
+                        if (r.status === 204) {
+                            eTaken.style.display = 'none';
+                            return;
+                        }
+                        eTaken.style.display = '';
+                    })
+                    .catch(error => {
+                        console.log('error is', error);
+                    });
 
                 firstPageCommonFunction("email", "eIndicator", !email.match(/\w+@{1}\w+\.\w+/g));
             }

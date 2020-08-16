@@ -7,6 +7,7 @@ import com.meetme.repositories.PersonRepository;
 import com.meetme.services.PersonService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -45,6 +46,7 @@ public class PersonServiceImpl implements PersonService {
         return user;
     }
 
+    @Cacheable(value = "cachedUsers")
     @Override
     public UserServiceModel findExistingUsersByEmail(String email) {
         UserServiceModel map;
