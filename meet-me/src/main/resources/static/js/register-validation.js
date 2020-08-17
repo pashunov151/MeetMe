@@ -44,8 +44,8 @@
 
     window.addEventListener("load", function () {
 //TODO REMOVE FOR DEVELOPMENT PURPOSES ONLY
-//         document.getElementById("next").disabled = true;
-//         document.getElementById("regForm").disabled = true;
+        document.getElementById("next").disabled = true;
+        document.getElementById("regForm").disabled = true;
         document.getElementById('eTaken').style.display = 'none';
 
         document.addEventListener("click", function (e) {

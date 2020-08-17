@@ -32,7 +32,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web
                 .ignoring()
-                .antMatchers("/css/**", "/js/**", "/pics/**");
+                .antMatchers("/css/**", "/js/**", "/img/**", "/json/**");
     }
 
     @Override
@@ -40,7 +40,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         //TODO: fix logout
         http.
                 authorizeRequests().
-                requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll().
+//                requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll().
                 antMatchers("/login**", "/register", "/db/**", "/").permitAll().
                 antMatchers("/**").
                 authenticated().
@@ -49,7 +49,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 loginPage("/login").
                 loginProcessingUrl("/users/login").
                 failureForwardUrl("/").
-                defaultSuccessUrl("/asd").
+                defaultSuccessUrl("/asd",true).
                 and().
                 logout().
                 logoutUrl("/logout").
