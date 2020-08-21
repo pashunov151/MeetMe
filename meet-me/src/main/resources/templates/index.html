@@ -6,16 +6,29 @@
 <body id="reportsPage">
 <div id="home">
     <div class="container">
-        <th:block th:include="fragments/navigation::navigation"></th:block>
+        <th:block sec:authorize="isAnonymous()">
+            <th:block th:include="fragments/navigation::navigation"></th:block>
+        </th:block>
+        <th:block sec:authorize="isAuthenticated()">
+            <th:block th:include="fragments/navigationLogged::navigationLoggedIn"></th:block>
+        </th:block>
 
-        <div class="row">
-            <img class="mx-auto d-block mt-4 img-fluid" src="/img/application-software-miai-online-dating-service-google-play-ios-png-favpng-0tih5hZ5fS4KGVD4dHaV9xjuf-removebg-preview.png"
-                 alt="Italian Trulli">
-        </div>
+        <th:block sec:authorize="isAnonymous()">
+            <div class="row">
+                <img class="mx-auto d-block mt-4 img-fluid"
+                     src="/img/application-software-miai-online-dating-service-google-play-ios-png-favpng-0tih5hZ5fS4KGVD4dHaV9xjuf-removebg-preview.png"
+                     alt="Italian Trulli">
+            </div>
 
-        <div class="container mt-lg-5 border-right border-bottom bg-transparent h-100">
-            <h1 class="w-100 text-light text-right">Welcome to my first application</h1>
-        </div>
+            <div class="container mt-lg-5 border-right border-bottom bg-transparent h-100">
+                <h1 class="w-100 text-light text-right">Welcome to my first application</h1>
+            </div>
+        </th:block>
+
+        <th:block sec:authorize="isAuthenticated()">
+           <th:block th:include="asd::loggedInPage"></th:block>
+        </th:block>
+
         <th:block th:include="fragments/footer::footer"></th:block>
     </div>
 </div>

@@ -13,7 +13,7 @@ public class UserServiceModel {
     private String username;
     private String firstName;
     private String lastName;
-    private Details details;
+    private DetailsServiceModel details;
     private LocalDate born;
     private Location location;
     private List<Person> friends;
@@ -49,11 +49,11 @@ public class UserServiceModel {
     }
 
     @JsonIgnore
-    public Details getDetails() {
+    public DetailsServiceModel getDetails() {
         return details;
     }
 
-    public void setDetails(Details details) {
+    public void setDetails(DetailsServiceModel details) {
         this.details = details;
     }
 

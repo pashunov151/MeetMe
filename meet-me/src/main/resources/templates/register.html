@@ -10,8 +10,7 @@
         <div class="bg-white tm-block">
             <div class="row mt-2">
                 <div class="col-12">
-                    <form autocomplete="off" id="registerContainer" th:action="@{/register}" th:method="POST" th:object="${registerModel}"
-                          class="tm-login-form reg">
+                    <form id="registerContainer" th:action="@{/register}" th:method="POST" th:object="${registerModel}" class="tm-login-form reg" encType="multipart/form-data">
                         <div class="row" id="fp">
                             <div class="col-sm">
                                 <th:block>
@@ -297,9 +296,9 @@
                                                class="col-xl-4 col-lg-4 col-md-4 col-sm-5 col-form-label">Profile
                                             picture</label>
                                         <div class="custom-file">
-                                            <input name="picture" type="file" th:field="*{details.picture}"
+                                            <input name="picture" type="file"
                                                    class="custom-file-input col-xl-9 col-lg-8 col-md-8 col-sm-7"
-                                                   id="picture">
+                                                   id="picture" accept="image/*">
                                             <label for="picture"
                                                    id="picLabel"
                                                    class="custom-file-label form-control">Profile
@@ -320,8 +319,6 @@
                                 </button>
                             </div>
                         </div>
-
-
                     </form>
                 </div>
             </div>

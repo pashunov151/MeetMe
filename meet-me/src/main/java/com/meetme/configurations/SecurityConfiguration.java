@@ -41,7 +41,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.
                 authorizeRequests().
 //                requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll().
-                antMatchers("/login**", "/register", "/db/**", "/").permitAll().
+        antMatchers("/login**", "/register", "/db/**", "/").permitAll().
                 antMatchers("/**").
                 authenticated().
                 and().
@@ -49,7 +49,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 loginPage("/login").
                 loginProcessingUrl("/users/login").
                 failureForwardUrl("/").
-                defaultSuccessUrl("/asd",true).
+                defaultSuccessUrl("/", true).
                 and().
                 logout().
                 logoutUrl("/logout").

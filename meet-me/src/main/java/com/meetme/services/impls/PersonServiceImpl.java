@@ -4,6 +4,7 @@ import com.meetme.models.bindingModels.UserRegisterBindingModel;
 import com.meetme.models.entities.Details;
 import com.meetme.models.entities.Person;
 import com.meetme.models.entities.Role;
+import com.meetme.models.serviceModels.DetailsServiceModel;
 import com.meetme.models.serviceModels.UserServiceModel;
 import com.meetme.repositories.UserRepository;
 import com.meetme.services.PersonService;
@@ -12,12 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Base64Utils;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class PersonServiceImpl implements PersonService {
@@ -33,7 +33,7 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public UserRegisterBindingModel registerUser(UserRegisterBindingModel user) {
+    public UserRegisterBindingModel registerUser(UserRegisterBindingModel user, MultipartFile file) {
         if (!user.getPassword().equals(user.getConfirmPassword()) ||
                 this.userRepository.findByUsername(user.getUsername()) != null) {
             return null;
@@ -51,6 +51,9 @@ public class PersonServiceImpl implements PersonService {
                 roles = List.of(new Role().setRole("ROLE_USER"));
             }
             map.setRoles(roles);
+
+//            String encoded = Base64Utils.encodeToString(file.getBytes());
+            map.getDetails().setPicture(file.getBytes());
             this.userRepository.saveAndFlush(map);
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -62,9 +65,16 @@ public class PersonServiceImpl implements PersonService {
     @Cacheable(value = "cachedUsers")
     @Override
     public UserServiceModel findExistingUsersByEmail(String email) {
+        System.out.println("cached");
         UserServiceModel map;
         try {
-            map = this.modelMapper.map(this.userRepository.findByEmail(email), UserServiceModel.class);
+            Person byEmail = this.userRepository.findByEmail(email);
+            map = this.modelMapper.map(byEmail, UserServiceModel.class);
+            DetailsServiceModel detailsServiceModel = this.modelMapper.map(byEmail.getDetails(), DetailsServiceModel.class);
+            byte[] encode = Base64.getEncoder().encode(byEmail.getDetails().getPicture());
+            String base64Encoded = new String(encode, "UTF-8");
+            detailsServiceModel.setPicture(base64Encoded);
+            map.setDetails(detailsServiceModel);
         } catch (Exception e) {
             map = null;
         }
@@ -79,9 +89,11 @@ public class PersonServiceImpl implements PersonService {
         return userEntityOpt.
                 orElseGet(() -> createUser(email));
     }
+
     private Person createUser(String email) {
-        return  createUser(email, null);
+        return createUser(email, null);
     }
+
     private Person createUser(String email, String password) {
         Person userEntity = new Person();
         Details details = new Details();

@@ -1,15 +1,17 @@
 package com.meetme.web.controllers;
 
 import com.meetme.models.bindingModels.UserRegisterBindingModel;
+import com.meetme.models.serviceModels.UserServiceModel;
 import com.meetme.services.PersonService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -20,13 +22,28 @@ public class HomeController {
     public HomeController(PersonService personService) {
         this.personService = personService;
     }
-    @GetMapping("/asd")
-    public String asd() {
-        return "asd";
-    }
+
     @GetMapping("/")
-    public String get() {
+    public String get(Model model) {
+        //TODO: FIX LOGGING IN AFTER REGISTER
+        try {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            User principal = (User) auth.getPrincipal();
+            model.addAttribute("user", this.personService.findExistingUsersByEmail(principal.getUsername()));
+        } catch (Exception e) {
+
+        }
         return "index";
+    }
+
+    @GetMapping("/asd")
+    public String asd(Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User principal = (User) auth.getPrincipal();
+        UserServiceModel existingUsersByEmail = this.personService.findExistingUsersByEmail(principal.getUsername());
+        System.out.println();
+        model.addAttribute("user", existingUsersByEmail);
+        return "asd";
     }
 
     @GetMapping("/login")
@@ -34,6 +51,7 @@ public class HomeController {
         model = this.setModelAttributes(model, "current", "login");
         return "login";
     }
+
     @PostMapping("/login-error")
     public ModelAndView onLoginError(
             @ModelAttribute(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY) String email) {
@@ -53,10 +71,11 @@ public class HomeController {
     }
 
     @PostMapping("/register")
-    public String postRegister(/*@Valid*/ @ModelAttribute("registerModel") UserRegisterBindingModel userRegisterBindingModel,
-                                          final BindingResult bindingResult) {
+    public String postRegister(/*@Valid*/@RequestParam("picture") MultipartFile file, @ModelAttribute("registerModel") UserRegisterBindingModel userRegisterBindingModel,
+                                         final BindingResult bindingResult) {
+
         UserRegisterBindingModel u =
-                this.personService.registerUser(userRegisterBindingModel);
+                this.personService.registerUser(userRegisterBindingModel, file);
         return "redirect:/login";
     }
 

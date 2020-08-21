@@ -42,10 +42,10 @@ server:
   compression:
     enabled: true
     mime-types: text/html,text/xml,text/plain,text/css,application/javascript,application/json
-logging:
-  level:
-    org.springframework.security: DEBUG
-    org.hibernate.SQL: DEBUG
+#logging:
+#  level:
+#    org.springframework.security: DEBUG
+#    org.hibernate.SQL: DEBUG
 #    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
 
 

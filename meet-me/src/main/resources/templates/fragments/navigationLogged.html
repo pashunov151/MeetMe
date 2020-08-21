@@ -1,9 +1,9 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <th:block th:fragment="navigationLoggedIn">
     <div class="row">
-        <div class="col-lg-12">
+        <div class="col-lg-12" th:object="${user}">
             <nav class="navbar navbar-expand-xl navbar-dark bg-dark rounded">
-                <a class="navbar-brand" href="/asd">
+                <a class="navbar-brand" href="/">
                     <h1 class="tm-site-title mb-0 text-light">Meet Me</h1>
                 </a>
 
@@ -19,7 +19,7 @@
                     <ul class="navbar-nav nav-tabs">
                         <li class="nav-item">
                             <a class="nav-link" href="#">
-                                <span th:text="|Hello|"></span>
+                                <span th:text="|Hello, *{firstName}|"></span>
                             </a>
                         </li>
                         <li class="nav-item">

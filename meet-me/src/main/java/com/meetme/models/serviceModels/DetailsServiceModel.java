@@ -1,11 +1,10 @@
-package com.meetme.models.entities;
+package com.meetme.models.serviceModels;
 
-import javax.persistence.*;
-import javax.validation.constraints.Pattern;
+import com.meetme.models.entities.Sex;
 
-@Entity
-@Table(name = "details")
-public class Details extends BaseEntity {
+import java.util.Base64;
+
+public class DetailsServiceModel {
     private String skinColor;
     private String hairColor;
     private String eyeColor;
@@ -13,14 +12,9 @@ public class Details extends BaseEntity {
     private Double weight;
     private Sex gender;
     private Sex interestedIn;
-    private byte[] picture;
+    private String picture;
     private String email;
 
-
-    public Details() {
-    }
-
-    @Column(name = "skin_color", nullable = false)
     public String getSkinColor() {
         return skinColor;
     }
@@ -29,7 +23,6 @@ public class Details extends BaseEntity {
         this.skinColor = skinColor;
     }
 
-    @Column(name = "hair_color", nullable = false)
     public String getHairColor() {
         return hairColor;
     }
@@ -38,7 +31,6 @@ public class Details extends BaseEntity {
         this.hairColor = hairColor;
     }
 
-    @Column(name = "eye_color", nullable = false)
     public String getEyeColor() {
         return eyeColor;
     }
@@ -47,7 +39,6 @@ public class Details extends BaseEntity {
         this.eyeColor = eyeColor;
     }
 
-    @Column(name = "height", nullable = false)
     public Double getHeight() {
         return height;
     }
@@ -56,7 +47,6 @@ public class Details extends BaseEntity {
         this.height = height;
     }
 
-    @Column(name = "weight", nullable = false)
     public Double getWeight() {
         return weight;
     }
@@ -65,8 +55,6 @@ public class Details extends BaseEntity {
         this.weight = weight;
     }
 
-    @Column(name = "sex", nullable = false)
-    @Enumerated(value = EnumType.STRING)
     public Sex getGender() {
         return gender;
     }
@@ -75,8 +63,6 @@ public class Details extends BaseEntity {
         this.gender = gender;
     }
 
-    @Column(name = "interested_in")
-    @Enumerated(value = EnumType.STRING)
     public Sex getInterestedIn() {
         return interestedIn;
     }
@@ -85,18 +71,14 @@ public class Details extends BaseEntity {
         this.interestedIn = interestedIn;
     }
 
-    @Lob
-    @Column(name = "image", nullable = false, length = 100000)
-    public byte[] getPicture() {
+    public String getPicture() {
         return picture;
     }
 
-    public void setPicture(byte[] image) {
-        this.picture = image;
+    public void setPicture(String picture) {
+        this.picture = picture;
     }
 
-    @Column(name = "email", nullable = false, unique = true)
-    @Pattern(regexp = ".+@\\w+\\.\\w+", message = "enter a valid email address")
     public String getEmail() {
         return email;
     }

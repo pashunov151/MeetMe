@@ -88,9 +88,9 @@
     }
 
     async function emailHandler(tr) {
-        tr.addEventListener("input", (e) => {
+        document.getElementById('email').addEventListener("input", (e) => {
             let email = e.target.value;
-            let a = `http://localhost:8001/db/users/${email}`;
+            let a = `http://localhost:8080/db/users/${email}`;
             if (email.length > 0 && email.match(/\w+@{1}\w+\.\w{2,}/g)) {
                 fetch(a, {mode: 'cors', method: 'GET'})
                     .then(r => {
@@ -175,7 +175,7 @@
             secondPageCommonFunction('picture', 'picIndicator', tr.value === undefined);
             let label = document.getElementById('picLabel');
             label.style.overflow = 'hidden';
-            label.textContent = tr.value.split(/(\\|\/)/g).pop();
+            // label.textContent = tr.value.split(/(\\|\/)/g).pop();
         })
     }
 
