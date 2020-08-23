@@ -48,7 +48,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 formLogin().
                 loginPage("/login").
                 loginProcessingUrl("/users/login").
-                failureForwardUrl("/").
+                failureForwardUrl("/login-error").
                 defaultSuccessUrl("/", true).
                 and().
                 logout().

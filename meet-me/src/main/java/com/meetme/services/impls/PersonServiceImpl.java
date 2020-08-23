@@ -10,10 +10,10 @@ import com.meetme.repositories.UserRepository;
 import com.meetme.services.PersonService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Base64Utils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
@@ -31,7 +31,7 @@ public class PersonServiceImpl implements PersonService {
         this.modelMapper = modelMapper;
         this.passwordEncoder = passwordEncoder;
     }
-
+    @CacheEvict(value = "cachedUsers", allEntries = true)
     @Override
     public UserRegisterBindingModel registerUser(UserRegisterBindingModel user, MultipartFile file) {
         if (!user.getPassword().equals(user.getConfirmPassword()) ||
@@ -44,15 +44,12 @@ public class PersonServiceImpl implements PersonService {
             map.setPassword(this.passwordEncoder.encode(user.getPassword()));
             map.setCreated(LocalDateTime.now());
             map.setUpdated(LocalDateTime.now());
-            List<Role> roles;
+            List<Role> roles = new ArrayList<>();
             if (this.userRepository.count() == 0) {
-                roles = List.of(new Role().setRole("ROLE_ADMIN"), new Role().setRole("ROLE_USER"));
-            } else {
-                roles = List.of(new Role().setRole("ROLE_USER"));
+                roles.add(new Role().setRole("ROLE_ADMIN"));
             }
+            roles.add(new Role().setRole("ROLE_USER"));
             map.setRoles(roles);
-
-//            String encoded = Base64Utils.encodeToString(file.getBytes());
             map.getDetails().setPicture(file.getBytes());
             this.userRepository.saveAndFlush(map);
         } catch (Exception e) {

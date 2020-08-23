@@ -29,7 +29,8 @@ public class HomeController {
         try {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             User principal = (User) auth.getPrincipal();
-            model.addAttribute("user", this.personService.findExistingUsersByEmail(principal.getUsername()));
+            UserServiceModel existingUsersByEmail = this.personService.findExistingUsersByEmail(principal.getUsername());
+            model.addAttribute("user", existingUsersByEmail);
         } catch (Exception e) {
 
         }
@@ -41,7 +42,6 @@ public class HomeController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User principal = (User) auth.getPrincipal();
         UserServiceModel existingUsersByEmail = this.personService.findExistingUsersByEmail(principal.getUsername());
-        System.out.println();
         model.addAttribute("user", existingUsersByEmail);
         return "asd";
     }
@@ -59,7 +59,6 @@ public class HomeController {
         modelAndView.addObject("error", "bad.credentials");
         modelAndView.addObject("username", email);
         modelAndView.setViewName("login");
-
         return modelAndView;
     }
 
