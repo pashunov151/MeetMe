@@ -3,7 +3,7 @@ html {
 }
 
 body {
-    font-family: "Open Sans", Helvetica, Arial, sans-serif;
+    font-family: "Open Sans", Helvetica, Arial, sans-serif !important;
     overflow-x: hidden;
     background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.8)), url(../img/GettyImages-1196354779-1200x814.png);
     background-size: cover;

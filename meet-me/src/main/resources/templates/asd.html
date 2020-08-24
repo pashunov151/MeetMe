@@ -1,10 +1,35 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <th:block th:fragment="loggedInPage">
-    <div class="row tm-mt-big" th:object="${user}">
+    <div class="row tm-mt-big " th:object="${user}">
         <div class="col-lg-12">
-            <div class="bg-white tm-block">
-                <img th:src="|data:image/jpeg;base64,*{details.picture}|" alt="">
-                tada
+            <div class="bg-white tm-block rounded">
+
+                <h1 class="text-center">Details</h1>
+
+                <div class="row mt-5" id="fp">
+                    <div class="col-sm">
+                        <div>tada</div>
+                        <img  id="myImg" class="rounded-circle mx-auto d-block img-fluid"
+                             th:src="|data:image/jpeg;base64,*{details.picture}|" alt="">
+
+                        <!-- The Modal -->
+                        <div id="myModal" class="modal">
+                            <span class="close">&times;</span>
+                            <img class="modal-content" id="img01">
+                            <div id="caption"></div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm">
+                        <p th:text="|Full name: *{firstName} *{lastName}|"></p>
+                        <p th:text="|Born in: *{born}|"></p>
+                        <p th:text="|Friends: *{friends.size()}|"></p>
+                        <p th:text="|Interested in: ${#strings.capitalize(user.details.getInterestedIn().toString().toLowerCase())}|"></p>
+                        <p th:text="|Last updated on ${#temporals.format(user.updated, 'HH:mm dd-MM-yyyy')}|"></p>
+                        <p th:text="|Created on ${#temporals.format(user.created, 'HH:mm dd-MM-yyyy')}|"></p>
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>
