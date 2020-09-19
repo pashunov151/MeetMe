@@ -61,6 +61,7 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public UserServiceModel findExistingUsersByEmail(String email) {
+        System.out.println("fixed");
         UserServiceModel map;
         try {
             Person byEmail = this.userRepository.findByEmail(email);

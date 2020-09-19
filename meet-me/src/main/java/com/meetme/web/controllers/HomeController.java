@@ -37,14 +37,16 @@ public class HomeController {
         return "index";
     }
 
-    @GetMapping("/asd")
-    public String asd(Model model) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User principal = (User) auth.getPrincipal();
-        UserServiceModel existingUsersByEmail = this.personService.findExistingUsersByEmail(principal.getUsername());
-        model.addAttribute("user", existingUsersByEmail);
-        return "asd";
-    }
+
+    //TODO: For development purposes. It is going to be removed before being deployed.
+//    @GetMapping("/asd")
+//    public String asd(Model model) {
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        User principal = (User) auth.getPrincipal();
+//        UserServiceModel existingUsersByEmail = this.personService.findExistingUsersByEmail(principal.getUsername());
+//        model.addAttribute("user", existingUsersByEmail);
+//        return "asd";
+//    }
 
     @GetMapping("/login")
     public String login(Model model) {
