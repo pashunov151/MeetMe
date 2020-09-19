@@ -29,6 +29,7 @@ public class RegisterControllerRest {
 //        return new UserServiceModel();
 //    }
 
+    @Cacheable(value = "cachedUsers")
     @GetMapping("/users/{email}")
     public ResponseEntity<UserServiceModel> getUser(@PathVariable(name = "email") String email) {
         UserServiceModel existingUsersByEmail = this.personService.findExistingUsersByEmail(email);

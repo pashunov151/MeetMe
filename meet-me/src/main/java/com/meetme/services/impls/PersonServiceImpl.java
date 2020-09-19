@@ -59,10 +59,8 @@ public class PersonServiceImpl implements PersonService {
         return user;
     }
 
-    @Cacheable(value = "cachedUsers")
     @Override
     public UserServiceModel findExistingUsersByEmail(String email) {
-        System.out.println("cached");
         UserServiceModel map;
         try {
             Person byEmail = this.userRepository.findByEmail(email);

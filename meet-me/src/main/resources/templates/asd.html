@@ -8,8 +8,8 @@
 
                 <div class="row mt-5" id="fp">
                     <div class="col-sm">
-                        <div>tada</div>
-                        <img  id="myImg" class="rounded-circle mx-auto d-block img-fluid"
+                        <div><b>dodo</b></div>
+                        <img id="myImg" class="rounded-circle mx-auto d-block img-fluid"
                              th:src="|data:image/jpeg;base64,*{details.picture}|" alt="">
 
                         <!-- The Modal -->
@@ -21,7 +21,10 @@
                     </div>
 
                     <div class="col-sm">
-                        <p th:text="|Full name: *{firstName} *{lastName}|"></p>
+                        <p>
+                            <b><span th:text="|Full name:|"></span></b>
+                            <span th:text="| *{firstName} *{lastName}|"></span>
+                        </p>
                         <p th:text="|Born in: *{born}|"></p>
                         <p th:text="|Friends: *{friends.size()}|"></p>
                         <p th:text="|Interested in: ${#strings.capitalize(user.details.getInterestedIn().toString().toLowerCase())}|"></p>
