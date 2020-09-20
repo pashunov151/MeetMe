@@ -25,11 +25,26 @@
                             <b><span th:text="|Full name:|"></span></b>
                             <span th:text="| *{firstName} *{lastName}|"></span>
                         </p>
-                        <p th:text="|Born in: *{born}|"></p>
-                        <p th:text="|Friends: *{friends.size()}|"></p>
-                        <p th:text="|Interested in: ${#strings.capitalize(user.details.getInterestedIn().toString().toLowerCase())}|"></p>
-                        <p th:text="|Last updated on ${#temporals.format(user.updated, 'HH:mm dd-MM-yyyy')}|"></p>
-                        <p th:text="|Created on ${#temporals.format(user.created, 'HH:mm dd-MM-yyyy')}|"></p>
+                        <p>
+                            <b><span th:text="|Born in: |"></span></b>
+                            <span th:text="| *{born}|"></span>
+                        </p>
+                        <p >
+                            <b><span th:text="|Friends: |"></span></b>
+                            <span th:text="| *{friends.size()}|"></span>
+                        </p>
+                        <p >
+                            <b><span th:text="|Interested in: |"></span></b>
+                            <span th:text="| ${#strings.capitalize(user.details.getInterestedIn().toString().toLowerCase())}|"></span>
+                        </p>
+                        <p >
+                            <b><span th:text="|Last updated on: |"></span></b>
+                            <span th:text="| ${#temporals.format(user.updated, 'HH:mm dd-MM-yyyy')}|"></span>
+                        </p>
+                        <p >
+                            <b><span th:text="|Created on: |"></span></b>
+                            <span th:text="| ${#temporals.format(user.created, 'HH:mm dd-MM-yyyy')}|"></span>
+                        </p>
                     </div>
 
                 </div>

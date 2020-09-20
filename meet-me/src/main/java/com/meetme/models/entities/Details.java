@@ -2,6 +2,8 @@ package com.meetme.models.entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
+import java.util.Arrays;
+import java.util.Objects;
 
 @Entity
 @Table(name = "details")
@@ -103,5 +105,31 @@ public class Details extends BaseEntity {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Details details = (Details) o;
+
+        return skinColor.equals(details.skinColor) &&
+                hairColor.equals(details.hairColor) &&
+                eyeColor.equals(details.eyeColor) &&
+                height.equals(details.height) &&
+                weight.equals(details.weight) &&
+                gender == details.gender &&
+                interestedIn == details.interestedIn &&
+                Arrays.equals(picture, details.picture) &&
+                email.equals(details.email);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = skinColor.hashCode() + hairColor.hashCode() + eyeColor.hashCode() +
+                Double.hashCode(height) + Double.hashCode(weight) + gender.hashCode() + interestedIn.hashCode()
+                + email.hashCode();
+        result = 31 * result + Arrays.hashCode(picture);
+        return result;
     }
 }

@@ -10,6 +10,7 @@ import javax.validation.constraints.PastOrPresent;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "people")
@@ -41,8 +42,9 @@ public class Person extends BaseEntity {
         return roles;
     }
 
-    public void setRoles(List<Role> roles) {
+    public Person setRoles(List<Role> roles) {
         this.roles = roles;
+        return this;
     }
 
     @Column(name = "username", nullable = false, updatable = false)
@@ -51,8 +53,9 @@ public class Person extends BaseEntity {
         return username;
     }
 
-    public void setUsername(String username) {
+    public Person setUsername(String username) {
         this.username = username;
+        return this;
     }
 
     @Column(name = "first_name", nullable = false)
@@ -61,8 +64,9 @@ public class Person extends BaseEntity {
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
+    public Person setFirstName(String firstName) {
         this.firstName = firstName;
+        return this;
     }
 
     @Column(name = "last_name", nullable = false)
@@ -71,8 +75,9 @@ public class Person extends BaseEntity {
         return lastName;
     }
 
-    public void setLastName(String lastName) {
+    public Person setLastName(String lastName) {
         this.lastName = lastName;
+        return this;
     }
 
     @Column(name = "password", nullable = false)
@@ -81,8 +86,9 @@ public class Person extends BaseEntity {
         return password;
     }
 
-    public void setPassword(String password) {
+    public Person setPassword(String password) {
         this.password = password;
+        return this;
     }
 
     @Column(name = "born", nullable = false)
@@ -92,8 +98,9 @@ public class Person extends BaseEntity {
         return born;
     }
 
-    public void setBorn(LocalDate born) {
+    public Person setBorn(LocalDate born) {
         this.born = born;
+        return this;
     }
 
     @ManyToOne(targetEntity = Details.class, fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
@@ -101,17 +108,19 @@ public class Person extends BaseEntity {
         return details;
     }
 
-    public void setDetails(Details details) {
+    public Person setDetails(Details details) {
         this.details = details;
+        return this;
     }
 
-    @ManyToOne(targetEntity = Location.class, fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @ManyToOne(targetEntity = Location.class, fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     public Location getLocation() {
         return location;
     }
 
-    public void setLocation(Location location) {
+    public Person setLocation(Location location) {
         this.location = location;
+        return this;
     }
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -123,8 +132,9 @@ public class Person extends BaseEntity {
         return friends;
     }
 
-    public void setFriends(List<Person> friends) {
+    public Person setFriends(List<Person> friends) {
         this.friends = friends;
+        return this;
     }
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -136,8 +146,9 @@ public class Person extends BaseEntity {
         return friendOf;
     }
 
-    public void setFriendOf(List<Person> friendOf) {
+    public Person setFriendOf(List<Person> friendOf) {
         this.friendOf = friendOf;
+        return this;
     }
 
     @Column(name = "created", updatable = false)
@@ -146,8 +157,9 @@ public class Person extends BaseEntity {
         return created;
     }
 
-    public void setCreated(LocalDateTime created) {
+    public Person setCreated(LocalDateTime created) {
         this.created = created;
+        return this;
     }
 
     @Column(name = "updated")
@@ -156,7 +168,35 @@ public class Person extends BaseEntity {
         return updated;
     }
 
-    public void setUpdated(LocalDateTime updated) {
+    public Person setUpdated(LocalDateTime updated) {
         this.updated = updated;
+        return this;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Person person = (Person) o;
+        return username.equals(person.username) &&
+                firstName.equals(person.firstName) &&
+                lastName.equals(person.lastName) &&
+                password.equals(person.password) &&
+                roles.equals(person.roles) &&
+                details.equals(person.details) &&
+                born.equals(person.born) &&
+                location.equals(person.location) &&
+                friends.equals(person.friends) &&
+                friendOf.equals(person.friendOf) &&
+                created.equals(person.created) &&
+                updated.equals(person.updated);
+    }
+
+    @Override
+    public int hashCode() {
+        return username.hashCode() + firstName.hashCode() + lastName.hashCode() +
+                password.hashCode() + List.of(roles).hashCode() + details.hashCode() +
+                born.hashCode() + location.hashCode() + List.of(friends).hashCode() +
+                List.of(friendOf).hashCode() + created.hashCode() + updated.hashCode();
     }
 }

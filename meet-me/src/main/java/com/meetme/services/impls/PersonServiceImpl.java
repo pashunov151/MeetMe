@@ -2,16 +2,18 @@ package com.meetme.services.impls;
 
 import com.meetme.models.bindingModels.UserRegisterBindingModel;
 import com.meetme.models.entities.Details;
+import com.meetme.models.entities.Location;
 import com.meetme.models.entities.Person;
 import com.meetme.models.entities.Role;
 import com.meetme.models.serviceModels.DetailsServiceModel;
 import com.meetme.models.serviceModels.UserServiceModel;
+import com.meetme.repositories.LocationRepository;
 import com.meetme.repositories.UserRepository;
+import com.meetme.services.LocationService;
 import com.meetme.services.PersonService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,13 +26,19 @@ public class PersonServiceImpl implements PersonService {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
+    private final LocationService locationService;
 
     @Autowired
-    public PersonServiceImpl(UserRepository userRepository, ModelMapper modelMapper, PasswordEncoder passwordEncoder) {
+    public PersonServiceImpl(UserRepository userRepository,
+                             ModelMapper modelMapper,
+                             PasswordEncoder passwordEncoder,
+                             LocationService locationService) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
         this.passwordEncoder = passwordEncoder;
+        this.locationService = locationService;
     }
+
     @CacheEvict(value = "cachedUsers", allEntries = true)
     @Override
     public UserRegisterBindingModel registerUser(UserRegisterBindingModel user, MultipartFile file) {
@@ -39,18 +47,23 @@ public class PersonServiceImpl implements PersonService {
             return null;
         }
         try {
-            user.getLocation().setCountry("Bulgaria");
-            Person map = this.modelMapper.map(user, Person.class);
-            map.setPassword(this.passwordEncoder.encode(user.getPassword()));
-            map.setCreated(LocalDateTime.now());
-            map.setUpdated(LocalDateTime.now());
             List<Role> roles = new ArrayList<>();
             if (this.userRepository.count() == 0) {
                 roles.add(new Role().setRole("ROLE_ADMIN"));
             }
             roles.add(new Role().setRole("ROLE_USER"));
-            map.setRoles(roles);
+            Location location = this.locationService.findLocation(user.getLocation());
+            Person map = this.modelMapper.map(user, Person.class).
+                    setPassword(this.passwordEncoder.encode(user.getPassword())).
+                    setCreated(LocalDateTime.now()).
+                    setUpdated(LocalDateTime.now()).
+                    setRoles(roles);
             map.getDetails().setPicture(file.getBytes());
+            if (location == null) {
+                this.locationService.saveLocationInDb(user.getLocation());
+            } else {
+                map.setLocation(location);
+            }
             this.userRepository.saveAndFlush(map);
         } catch (Exception e) {
             System.out.println(e.getMessage());
