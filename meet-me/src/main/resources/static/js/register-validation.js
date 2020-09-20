@@ -47,6 +47,7 @@
         document.getElementById("next").disabled = true;
         document.getElementById("regForm").disabled = true;
         document.getElementById('eTaken').style.display = 'none';
+        document.getElementById("confirmPassword").disabled = true;
 
         document.addEventListener("click", function (e) {
             let tr = e.target.id;
